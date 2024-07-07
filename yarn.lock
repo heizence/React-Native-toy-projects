@@ -2996,9 +2996,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"AwesomeProject@workspace:.":
+"RNToyProjects@workspace:.":
   version: 0.0.0-use.local
-  resolution: "AwesomeProject@workspace:."
+  resolution: "RNToyProjects@workspace:."
   dependencies:
     "@babel/core": ^7.20.0
     "@babel/preset-env": ^7.20.0

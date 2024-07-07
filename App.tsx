@@ -6,21 +6,14 @@
  */
 
 import React from 'react';
-
 import {SafeAreaView, StyleSheet} from 'react-native';
-
-import Calculator from './src/Calculator';
 
 /* This defines a functional component named App.
 In React, functional components are simply functions that return a JSX element.
 The : React.JSX.Element part is a TypeScript type annotation indicating that this function returns a JSX element.
 */
 function App(): React.JSX.Element {
-  return (
-    <SafeAreaView style={styles.container}>
-      <Calculator />
-    </SafeAreaView>
-  );
+  return <SafeAreaView style={styles.container}></SafeAreaView>;
 }
 
 const styles = StyleSheet.create({
