@@ -56,9 +56,9 @@ pod install
 pod update
 ```
 
-### 4.Start application
+## Start application
 
-This process is same as starting normal react-native applications.
+Same as starting normal react-native applications.
 
 **For Android**
 
