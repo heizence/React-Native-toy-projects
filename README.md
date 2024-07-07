@@ -2,7 +2,11 @@ This repository is uplodaing various projects built in React-Native with Typescr
 
 All projects are built for private purpose : just for fun, for studying, for experiments and etc. It's not for public use, but feel free to use if anyone needs it.
 
-Each project is managed separately by each branch corresponding to.
+Each project is managed separately by each branch corresponding to. 
+
+### List of branches
+- [main](https://github.com/heizence/React-Native-toy-projects) (only contains minimum configurations for React-Native app)
+- [basicCalculator](https://github.com/heizence/React-Native-toy-projects/tree/basicCalculator)
 
 # Getting started
 
@@ -26,7 +30,7 @@ git clone https://github.com/heizence/React-Native-toy-proejcts
 
 All branches have different dependencies or requirements since each branch deals with different project. You need to move to a branch you'd like to run before installing dependencies.
 
-**"main" branch does not contain React-Native files for execution!** You have to choose any branch, not "main".
+**"main" branch only contains minimum configuration for React-Native app, not anything useful.**
 
 It's okay to skip this step if you want. However, you'll need to install dependencies again if additional dependencies are required.
 
