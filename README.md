@@ -6,7 +6,8 @@ Each project is managed separately by each branch corresponding to.
 
 ### List of branches
 - [main](https://github.com/heizence/React-Native-toy-projects) (only contains minimum configurations for React-Native app)
-- [basicCalculator](https://github.com/heizence/React-Native-toy-projects/tree/basicCalculator)
+- [01.basicCalculator](https://github.com/heizence/React-Native-toy-projects/tree/basicCalculator)
+- [02.simpleSNSAPP](https://github.com/heizence/React-Native-toy-projects/tree/02_simpleSNSApp)
 
 # Getting started
 
