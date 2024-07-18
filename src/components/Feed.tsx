@@ -1,18 +1,21 @@
 // src/components/Feed.tsx
 import React, {useEffect, useState} from 'react';
 import {
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-
 import {fetchData, Post} from '../DummyAPI';
 import EachPost from './EachPost';
+import {useNavigation} from '@react-navigation/native';
+import {routes} from '../Routes';
 
 const Feed: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const navigation = useNavigation();
   useEffect(() => {
     getData();
   }, []);
@@ -23,18 +26,24 @@ const Feed: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView>
         {posts.map(post => (
           <EachPost
             key={post.id}
-            title={post.title}
+            id={post.id}
+            user={post.user}
+            user_profile={post.user_profile}
             image={post.image}
+            title={post.title}
             description={post.description}
           />
         ))}
       </ScrollView>
       <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(routes.AddFeed);
+        }}
         style={{
           position: 'absolute',
           right: 10,
@@ -50,7 +59,7 @@ const Feed: React.FC = () => {
           ADD
         </Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
