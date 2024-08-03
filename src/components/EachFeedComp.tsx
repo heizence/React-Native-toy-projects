@@ -1,19 +1,40 @@
 // src/components/Post.tsx
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-import {Post} from '../DummyAPI';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../Navigator';
 
-const EachPost: React.FC<Post> = ({
-  id,
-  user,
-  user_profile,
-  image,
-  title,
-  description,
-}) => {
+type Props = {
+  id: string;
+  user: string;
+  user_profile: string;
+  image: string;
+  title: string;
+  description: string;
+  navigation: NativeStackScreenProps<
+    RootStackParamList,
+    'MainPage'
+  >['navigation'];
+};
+
+const EachFeedComp = (props: Props) => {
+  const {id, user, user_profile, image, title, description, navigation} = props;
+  console.log('[EachFeedComp]check props : ', props.user);
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate('FeedDetail', {
+          id,
+          user,
+          user_profile,
+          image,
+          title,
+          description,
+        });
+      }}>
       <View
         style={{
           flexDirection: 'row',
@@ -33,9 +54,9 @@ const EachPost: React.FC<Post> = ({
         <Text style={styles.userNameFont}>{user}</Text>
       </View>
 
-      <Image source={{uri: image}} style={styles.image} />
+      {image && <Image source={{uri: image}} style={styles.image} />}
       <Text style={styles.description}>{description}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -65,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EachPost;
+export default EachFeedComp;
