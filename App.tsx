@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Navigator from './src/Navigator';
+import {Navigator} from './src/Navigator';
 
 /* This defines a functional component named App.
 In React, functional components are simply functions that return a JSX element.
