@@ -1,12 +1,11 @@
-# 01.Basic Calculator
+# 01.Simple SNS App
 
-<img width="337" alt="스크린샷 2024-07-07 오후 4 44 18" src="https://github.com/heizence/React-Native-toy-projects/assets/47074893/d5818eb7-dd26-487e-9fca-7ff38666609f">
+<img width="337" alt="스크린샷 2024-07-07 오후 4 44 18" src="https://github.com/user-attachments/assets/63d0c5fe-48ef-422c-bd41-d56a4f25019a">
 <br/>
 
-Literally basic calculators which has basic functions.
+Simple list app looks like SNS(with poor design...).
 
 ### Capabilities
-- Add
-- Subtract
-- Multiply
-- Divide
+- Get feed datas
+- Add new feed
+- View each feed
