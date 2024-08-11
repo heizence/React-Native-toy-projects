@@ -19,7 +19,6 @@ type RootStackParamList = {
   Main: undefined;
 };
  */
-
 type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
 const Main = ({navigation, route}: MainProps) => {
@@ -43,7 +42,6 @@ const Main = ({navigation, route}: MainProps) => {
   console.log('rerendered');
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderComp />
       {/* for alignment. */}
       <View></View>
       <Text

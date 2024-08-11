@@ -1,20 +1,18 @@
 import * as React from 'react';
-import {View, Text} from 'react-native';
+import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {HeaderStyleInterpolators} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {DrawerContentScrollView} from '@react-navigation/drawer';
 import Main from './Main';
+import Header from './Header';
+import CustomDrawer from './CustomDrawer';
 
 export type RootStackParamList = {
   Main: undefined;
-};
-
-type DrawerParamList = {
-  Main: undefined;
+  Drawer: undefined;
 };
 
 /*
@@ -22,40 +20,25 @@ type DrawerParamList = {
  * The type is provided to ensure type safety for the routes and their parameters.
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-const Drawer = createDrawerNavigator<DrawerParamList>();
+const Drawer = createDrawerNavigator<RootStackParamList>();
 
 const screenOptions = {
-  headerShown: false,
+  headerShown: true,
   gestureEnabled: false,
   presentation: 'modal',
   headerStyleInterpolator: HeaderStyleInterpolators.forUIKit,
-};
-
-const BasicFormStack = () => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name={'Main'} component={Main} />
-    </Stack.Navigator>
-  );
-};
-
-const DrawerStack = () => {
-  return (
-    <Drawer.Navigator initialRouteName="Main">
-      <Drawer.Screen
-        name="Main"
-        component={Main}
-        //options={{title: 'title'}}
-      />
-    </Drawer.Navigator>
-  );
+  header: () => <Header />,
 };
 
 export const Navigator = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Main">
+      <Drawer.Navigator
+        initialRouteName="Main"
+        drawerContent={props => <CustomDrawer {...props} />}
+        screenOptions={{
+          drawerType: 'front',
+        }}>
         <Drawer.Screen name="Main" component={Main} options={screenOptions} />
       </Drawer.Navigator>
     </NavigationContainer>

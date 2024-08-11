@@ -1,23 +1,20 @@
 // src/components/Feed.tsx
 import React, {useEffect, useState} from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Foundation from 'react-native-vector-icons/Foundation';
 import {RootStackParamList} from './Navigator';
+import {DrawerNavigationProp} from '@react-navigation/drawer';
+import {useNavigation} from '@react-navigation/native';
 
-type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+type DrawerNavigation = DrawerNavigationProp<RootStackParamList, 'Main'>;
 
 const HeaderComp = () => {
+  const navigation = useNavigation<DrawerNavigation>();
+
   useEffect(() => {
     console.log('');
   }, []);
@@ -25,11 +22,16 @@ const HeaderComp = () => {
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        {true ? (
-          <Feather name={'menu'} size={30} color={'black'} />
-        ) : (
-          <AntDesign name={'arrowleft'} size={30} color={'black'} />
-        )}
+        <TouchableOpacity
+          onPress={() => {
+            navigation.openDrawer();
+          }}>
+          {true ? (
+            <Feather name={'menu'} size={30} color={'black'} />
+          ) : (
+            <AntDesign name={'arrowleft'} size={30} color={'black'} />
+          )}
+        </TouchableOpacity>
 
         <Text
           style={{
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    backgroundColor: '#EFF9FF',
   },
   row: {
     flexDirection: 'row',
