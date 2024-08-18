@@ -1,5 +1,5 @@
 // src/components/Feed.tsx
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,6 +12,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useFocusEffect} from '@react-navigation/native';
 import {RootStackParamList} from './Navigator';
 import HeaderComp from './Header';
+import {counters, currentCounter, increase, decrease} from './zustand/Store';
 
 /*
 RootStackParamList has to be like this : 
@@ -22,24 +23,29 @@ type RootStackParamList = {
 type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
 const Main = ({navigation, route}: MainProps) => {
-  const [count, setCount] = useState<number>(0);
+  const countersStore = counters();
+  const currentCounterName = currentCounter();
+  const increaseFunc = increase();
+  const decreaseFunc = decrease();
+
+  let counts = countersStore[currentCounterName];
 
   useEffect(() => {
-    console.log('');
-  }, []);
+    console.log('### Main');
+    console.log('### currentCounterName  : ', currentCounterName);
+    console.log('### counts  : ', counts);
+  }, [countersStore]);
 
   const add = () => {
-    setCount(prev => prev + 1);
+    //  setCount(prev => prev + 1);
+    increaseFunc(currentCounterName);
   };
 
   const subtract = () => {
-    setCount(prev => prev - 1);
+    //    setCount(prev => prev - 1);
+    decreaseFunc(currentCounterName);
   };
 
-  const reset = () => {
-    setCount(0);
-  };
-  console.log('rerendered');
   return (
     <SafeAreaView style={styles.container}>
       {/* for alignment. */}
@@ -51,7 +57,7 @@ const Main = ({navigation, route}: MainProps) => {
           textAlign: 'center',
           color: 'black',
         }}>
-        {count}
+        {counts}
       </Text>
       <View>
         <TouchableOpacity onPress={add} style={styles.buttons}>
