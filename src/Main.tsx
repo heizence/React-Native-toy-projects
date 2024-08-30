@@ -31,9 +31,9 @@ const Main = ({navigation, route}: MainProps) => {
   let counts = countersStore[currentCounterName];
 
   useEffect(() => {
-    console.log('### Main');
-    console.log('### currentCounterName  : ', currentCounterName);
-    console.log('### counts  : ', counts);
+    // console.log('### Main');
+    // console.log('### currentCounterName  : ', currentCounterName);
+    // console.log('### counts  : ', counts);
   }, [countersStore]);
 
   const add = () => {
