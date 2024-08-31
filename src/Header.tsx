@@ -16,7 +16,6 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import Foundation from 'react-native-vector-icons/Foundation';
@@ -44,21 +43,23 @@ const HeaderComp = () => {
 
   const [modalVisible, setModalVisible] = useState(false);
   const [counterName, setCounterName] = useState(currentCounterName);
-  const [countInput, setCountInput] = useState('123');
+  const [countInput, setCountInput] = useState(
+    countersStore[currentCounterName],
+  );
 
   const navigation = useNavigation<DrawerNavigation>();
 
+  // for check
   useEffect(() => {
     console.log('check countersStore : ', countersStore);
     console.log('check currentCounterName : ', currentCounterName);
     console.log('check counts : ', countersStore[currentCounterName]);
     //setCountInput(countersStore[currentCounterName]);
-  }, [countersStore]);
+  }, [countersStore, currentCounterName]);
 
   const menuOnSelect = (value: number) => {
-    //console.log('## menuOnSelect : ', value);
-
     switch (value) {
+      // delete
       case 1:
         Alert.alert('', 'Do you really want to delete this counter?', [
           {
@@ -72,12 +73,21 @@ const HeaderComp = () => {
             },
           },
         ]);
+      // settings
       case 2:
         break;
 
       default:
         break;
     }
+  };
+
+  const resetCountsLocal = () => {
+    resetFunc(currentCounterName);
+  };
+
+  const editCounterLocal = () => {
+    editCounterFunc(currentCounterName, counterName, Number(countInput));
   };
 
   return (
@@ -87,11 +97,7 @@ const HeaderComp = () => {
           onPress={() => {
             navigation.openDrawer();
           }}>
-          {true ? (
-            <Feather name={'menu'} size={30} color={'black'} />
-          ) : (
-            <AntDesign name={'arrowleft'} size={30} color={'black'} />
-          )}
+          <Feather name={'menu'} size={30} color={'black'} />
         </TouchableOpacity>
 
         <Text
@@ -105,7 +111,7 @@ const HeaderComp = () => {
       </View>
 
       <View style={[styles.row]}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={resetCountsLocal}>
           <Foundation
             name={'refresh'}
             size={30}
@@ -116,6 +122,8 @@ const HeaderComp = () => {
 
         <TouchableOpacity
           onPress={() => {
+            setCounterName(currentCounterName);
+            setCountInput(String(countersStore[currentCounterName]));
             setModalVisible(true);
           }}>
           <Entypo
@@ -151,7 +159,6 @@ const HeaderComp = () => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
@@ -166,8 +173,8 @@ const HeaderComp = () => {
             <TextInput
               style={styles.modalTxtInput}
               placeholder="counts"
-              value={countInput}
-              //keyboardType="numeric"
+              value={String(countInput)}
+              keyboardType="numeric"
               onChangeText={setCountInput}
             />
             <View
@@ -182,7 +189,10 @@ const HeaderComp = () => {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button]}
-                onPress={() => setModalVisible(!modalVisible)}>
+                onPress={() => {
+                  editCounterLocal();
+                  setModalVisible(!modalVisible);
+                }}>
                 <Text style={styles.textStyle}>OK</Text>
               </TouchableOpacity>
             </View>

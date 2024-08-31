@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Modal,
   View,
   Text,
   TouchableOpacity,
-  Alert,
   TextInput,
   Dimensions,
 } from 'react-native';
@@ -20,30 +19,29 @@ type DrawerNavigation = DrawerNavigationProp<RootStackParamList, 'Main'>;
 
 const screenWidth = Dimensions.get('window').width;
 
-const CustomDrawer = ({props}) => {
+const CustomDrawer = () => {
   const countersStore = counters();
   const addCounterFunc = addCounter();
   const setCurrentCounterFunc = setCurrentCounter();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [counterName, setCounterName] = useState('');
-  const [counts, setCounts] = useState();
 
   const navigation = useNavigation<DrawerNavigation>();
 
-  useEffect(() => {
-    console.log('check props : ', props);
-    return () => {};
-  }, []);
-
   const addNewCounter = () => {
+    navigation.dispatch(DrawerActions.closeDrawer());
     addCounterFunc(counterName);
+    closeModal();
+  };
+
+  const closeModal = () => {
     setCounterName('');
     setModalVisible(false);
   };
 
-  const selectCounter = (counterName: string) => {
-    setCurrentCounterFunc(counterName);
+  const selectCounter = (counterNameInput: string) => {
+    setCurrentCounterFunc(counterNameInput);
     // in Custom Drawer, have to use this instead of "navigation.closeDrawer();"
     navigation.dispatch(DrawerActions.closeDrawer());
   };
@@ -61,13 +59,18 @@ const CustomDrawer = ({props}) => {
           + Add counter
         </Text>
       </TouchableOpacity>
-      {Object.keys(countersStore).map((name, index) => (
-        <TouchableOpacity
-          key={name + index}
-          onPress={() => selectCounter(name)}>
-          <Text style={styles.counterName}>{name}</Text>
-        </TouchableOpacity>
-      ))}
+
+      {Object.keys(countersStore).map((name, index) => {
+        return (
+          Boolean(countersStore[name] !== undefined) && (
+            <TouchableOpacity
+              key={name + index}
+              onPress={() => selectCounter(name)}>
+              <Text style={styles.counterName}>{name}</Text>
+            </TouchableOpacity>
+          )
+        );
+      })}
 
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
@@ -84,12 +87,7 @@ const CustomDrawer = ({props}) => {
                 flexDirection: 'row',
                 justifyContent: 'flex-end',
               }}>
-              <TouchableOpacity
-                style={[styles.button]}
-                onPress={() => {
-                  setCounterName('');
-                  setModalVisible(false);
-                }}>
+              <TouchableOpacity style={[styles.button]} onPress={closeModal}>
                 <Text style={styles.textStyle}>Cancel</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.button]} onPress={addNewCounter}>
@@ -159,7 +157,6 @@ const styles = StyleSheet.create({
   modalTxtInput: {
     borderWidth: 0.7,
     marginBottom: 10,
-    textSize: 10,
   },
   button: {
     marginRight: 15,

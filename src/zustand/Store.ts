@@ -41,32 +41,37 @@ export const store = create(set => ({
       currentCounter: counterName,
     })),
   editCounter: (counterName: string, newCounterName: string, count: number) =>
-    set((state: stateType) => ({
-      ...state,
-      counters: {
-        ...state.counters,
-        [counterName]: undefined,
-        [newCounterName]: count,
-      },
-      currentCounter: newCounterName,
-    })),
+    set((state: stateType) => {
+      let newCounterState = {...state.counters};
+      delete newCounterState[counterName];
+      newCounterState[newCounterName] = count;
+      return {
+        ...state,
+        counters: {
+          ...newCounterState,
+        },
+        currentCounter: newCounterName,
+      };
+    }),
   setCurrentCounter: (counterName: string) =>
     set((state: stateType) => ({
       ...state,
       currentCounter: counterName,
     })),
   removeCounter: (counterName: string) =>
-    set((state: stateType) => ({
-      ...state,
-      counters: {
-        ...state.counters,
-        [counterName]: undefined,
-      },
-      currentCounter: Object.keys(state.counters)[
-        Object.keys(state.counters).length - 1
-      ],
-    })),
+    set((state: stateType) => {
+      let newCounterState = {...state.counters};
+      delete newCounterState[counterName];
 
+      return {
+        ...state,
+        counters: {
+          ...newCounterState,
+        },
+        currentCounter:
+          Object.keys(newCounterState)[Object.keys(newCounterState).length - 1],
+      };
+    }),
   removeAllCounters: () =>
     set({
       counters: {
@@ -75,8 +80,6 @@ export const store = create(set => ({
       currentCounter: 'New Counter',
     }),
 }));
-
-//export const test = store(state => state.test);
 
 export const counters = () => store((state: stateType) => state.counters);
 export const currentCounter = () =>
