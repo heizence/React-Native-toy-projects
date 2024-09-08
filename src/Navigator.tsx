@@ -1,26 +1,21 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackScreenProps,
-} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Main from './screens/Main';
 import EachNote from './screens/EachNote';
 import {Note} from './Types';
+import Header from './components/Header';
 
-/**
- * This is used to specify parameters for the routes in the stack navigator.
- */
 export type RootStackParamList = {
   Main: undefined;
   EachNote: Note;
 };
 
-/*
- * This creates a stack navigator using RootStackParamList type.
- * The type is provided to ensure type safety for the routes and their parameters.
- */
 const Stack = createNativeStackNavigator<RootStackParamList>();
+
+const renderHeader = (title: string) => {
+  return <Header title={title} />;
+};
 
 export const Navigator = () => {
   return (
@@ -37,7 +32,7 @@ export const Navigator = () => {
           name={'EachNote'}
           component={EachNote}
           options={({route}) => ({
-            headerTitle: route.params.title,
+            header: () => renderHeader(route.params.title),
           })}
         />
       </Stack.Navigator>
