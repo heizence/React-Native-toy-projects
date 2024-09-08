@@ -1,40 +1,55 @@
-// src/components/Feed.tsx
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   View,
-  Text,
+  Dimensions,
   TouchableOpacity,
   TextInput,
 } from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useFocusEffect} from '@react-navigation/native';
 import {RootStackParamList} from '../Navigator';
 
 type EachNoteProps = NativeStackScreenProps<RootStackParamList, 'EachNote'>;
 
-const EachNote = ({navigation, route}: EachNoteProps) => {
-  const [contents, setContents] = useState();
+const EachNote = ({route}: EachNoteProps) => {
+  const [contentsState, setContentsState] = useState<string>(
+    route.params.contents,
+  );
+  const {width, height} = Dimensions.get('window');
+  const inputRef = useRef<any>(null);
 
   useEffect(() => {
-    console.log('');
+    //console.log('check route : ', route);
   }, []);
 
-  const onChangeText = () => {};
+  const onChangeText = (text: string) => {
+    setContentsState(text);
+  };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
+      {/* for focusing textinput area */}
+      <TouchableOpacity
+        activeOpacity={1}
+        style={{
+          position: 'absolute',
+          width: width,
+          height: height,
+        }}
+        onPress={() => {
+          inputRef.current?.focus();
+        }}></TouchableOpacity>
       <TextInput
-        autoFocus={true}
+        ref={inputRef}
+        autoFocus={false}
         onChangeText={onChangeText}
-        value={contents}
+        value={contentsState}
         multiline={true}
         style={styles.noteInput}
         textAlignVertical="top"
       />
-    </SafeAreaView>
+    </View>
   );
 };
 

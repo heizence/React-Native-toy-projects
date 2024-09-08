@@ -1,4 +1,3 @@
-// src/components/Feed.tsx
 import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
@@ -6,18 +5,17 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import {RootStackParamList} from '../Navigator';
 import {dummyData, Note} from '../Types';
 
 type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
-const Main = ({navigation, route}: MainProps) => {
+const Main = ({navigation}: MainProps) => {
   const [notes, setNotes] = useState<Note[]>(dummyData);
 
   // get data when screen is focused
@@ -68,6 +66,8 @@ const Main = ({navigation, route}: MainProps) => {
         data={notes}
         //data={[]}
         renderItem={({item}) => renderItem(item)}
+        bounces={false}
+        showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => {
           return (
             <View
@@ -80,7 +80,7 @@ const Main = ({navigation, route}: MainProps) => {
             </View>
           );
         }}
-        contentContainerStyle={{flex: 1}}
+        contentContainerStyle={{}}
       />
     </SafeAreaView>
   );
