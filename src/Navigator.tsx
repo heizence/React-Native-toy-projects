@@ -3,18 +3,22 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Main from './screens/Main';
 import EachNote from './screens/EachNote';
-import {Note} from './Types';
-import Header from './components/Header';
+import MainHeader from './components/MainHeader';
 
 export type RootStackParamList = {
-  Main: undefined;
-  EachNote: Note;
+  MainScreen: undefined;
+  EachNoteScreen: {
+    type: string;
+    id?: string;
+    title?: string;
+    contents?: string;
+  };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
-const renderHeader = (title: string) => {
-  return <Header title={title} />;
+const renderMainHeader = (props: any) => {
+  return <MainHeader {...props} />;
 };
 
 export const Navigator = () => {
@@ -22,18 +26,18 @@ export const Navigator = () => {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name={'Main'}
+          name={'MainScreen'}
           component={Main}
-          options={{
-            headerTitle: 'All notes',
-          }}
+          options={props => ({
+            header: () => renderMainHeader(props),
+          })}
         />
         <Stack.Screen
-          name={'EachNote'}
+          name={'EachNoteScreen'}
           component={EachNote}
-          options={({route}) => ({
-            header: () => renderHeader(route.params.title),
-          })}
+          options={{
+            headerShown: false,
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
