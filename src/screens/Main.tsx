@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -9,14 +9,15 @@ import {
 } from 'react-native';
 
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {useFocusEffect} from '@react-navigation/native';
 import {RootStackParamList} from '../Navigator';
-import {dummyData, Note} from '../Types';
+import {actions, Note} from '../Types';
+import {getAllNotes} from '../AsyncFunctions';
+import {useFocusEffect} from '@react-navigation/native';
 
-type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+type MainScreenProps = NativeStackScreenProps<RootStackParamList, 'MainScreen'>;
 
-const Main = ({navigation}: MainProps) => {
-  const [notes, setNotes] = useState<Note[]>(dummyData);
+const Main = ({navigation}: MainScreenProps) => {
+  const [notes, setNotes] = useState<Note[]>([]);
 
   // get data when screen is focused
   useFocusEffect(
@@ -25,27 +26,24 @@ const Main = ({navigation}: MainProps) => {
     }, []),
   );
 
-  useEffect(() => {
-    console.log('');
-  }, []);
-
-  // get data API
-  const getData = () => {};
+  const getData = async () => {
+    console.log('#getData');
+    let notesFromAsync = await getAllNotes();
+    //console.log('notes : ', notes);
+    setNotes(notesFromAsync);
+  };
 
   const renderItem = (item: Note) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
-          navigation.navigate('EachNote', item);
+          navigation.navigate('EachNoteScreen', {
+            type: actions.SHOW,
+            ...item,
+          });
         }}
-        style={{
-          paddingVertical: 15,
-          paddingHorizontal: 10,
-          backgroundColor: '#f4f5f2',
-          borderBottomWidth: 1,
-          borderBottomColor: '#dbdbd9',
-        }}>
+        style={styles.eachNoteView}>
         <Text
           style={{
             fontSize: 18,
@@ -64,23 +62,19 @@ const Main = ({navigation}: MainProps) => {
     <SafeAreaView style={styles.container}>
       <FlatList
         data={notes}
-        //data={[]}
         renderItem={({item}) => renderItem(item)}
         bounces={false}
         showsVerticalScrollIndicator={false}
         ListEmptyComponent={() => {
           return (
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+            <View style={styles.showNoNotesTxt}>
               <Text style={{fontSize: 20}}>No notes</Text>
             </View>
           );
         }}
-        contentContainerStyle={{}}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
       />
     </SafeAreaView>
   );
@@ -90,6 +84,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
+  },
+  eachNoteView: {
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    backgroundColor: '#f4f5f2',
+    borderBottomWidth: 1,
+    borderBottomColor: '#dbdbd9',
+  },
+  showNoNotesTxt: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
