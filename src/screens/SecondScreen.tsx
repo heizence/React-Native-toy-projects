@@ -10,9 +10,9 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../Navigator';
 
-type EachNoteProps = NativeStackScreenProps<RootStackParamList, 'EachNote'>;
+type screenProps = NativeStackScreenProps<RootStackParamList, 'SecondScreen'>;
 
-const EachNote = ({route}: EachNoteProps) => {
+const SecondScreen = ({route}: screenProps) => {
   const [contentsState, setContentsState] = useState<string>(
     route.params.contents,
   );
@@ -63,4 +63,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EachNote;
+export default SecondScreen;

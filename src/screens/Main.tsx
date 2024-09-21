@@ -11,12 +11,12 @@ import {
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {useFocusEffect} from '@react-navigation/native';
 import {RootStackParamList} from '../Navigator';
-import {dummyData, Note} from '../Types';
+import {dummyData, ExampleType} from '../Types';
 
 type MainProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
 const Main = ({navigation}: MainProps) => {
-  const [notes, setNotes] = useState<Note[]>(dummyData);
+  const [data, setData] = useState<ExampleType[]>(dummyData);
 
   // get data when screen is focused
   useFocusEffect(
@@ -32,12 +32,12 @@ const Main = ({navigation}: MainProps) => {
   // get data API
   const getData = () => {};
 
-  const renderItem = (item: Note) => {
+  const renderItem = (item: ExampleType) => {
     return (
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
-          navigation.navigate('EachNote', item);
+          navigation.navigate('SecondScreen', item);
         }}
         style={{
           paddingVertical: 15,
@@ -63,7 +63,7 @@ const Main = ({navigation}: MainProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={notes}
+        data={data}
         //data={[]}
         renderItem={({item}) => renderItem(item)}
         bounces={false}

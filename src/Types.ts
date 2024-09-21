@@ -1,4 +1,4 @@
-export type Note = {
+export type ExampleType = {
   id: string;
   title: string;
   contents: string;
